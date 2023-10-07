@@ -9,88 +9,47 @@ public class Task4 {
         Thread t1 = new Thread() {
             @Override
             public void run() {
-                String text = readFileByLines("warAndPiece");
-                System.out.println(text);
-                StringBuffer sb = new StringBuffer(text);
-                String reversText = sb.reverse().toString();
-                LocalDate currentDate = LocalDate.now();
-                String fileName = String.format("%s_%s", Thread.currentThread().getName(),currentDate);
-                write(reversText, String.format("result\\%s",fileName),false);
+                runThread();
             }
         };
         Thread t2 = new Thread() {
             @Override
             public void run() {
-                String text = readFileByLines("warAndPiece");
-                System.out.println(text);
-                StringBuffer sb = new StringBuffer(text);
-                String reversText = sb.reverse().toString();
-                LocalDate currentDate = LocalDate.now();
-                String fileName = String.format("%s_%s", Thread.currentThread().getName(),currentDate);
-                write(reversText, String.format("result\\%s",fileName),false);
+                runThread();
             }
         };
         Thread t3 = new Thread() {
             @Override
             public void run() {
-                String text = readFileByLines("warAndPiece");
-                System.out.println(text);
-                StringBuffer sb = new StringBuffer(text);
-                String reversText = sb.reverse().toString();
-                LocalDate currentDate = LocalDate.now();
-                String fileName = String.format("%s_%s", Thread.currentThread().getName(),currentDate);
-                write(reversText, String.format("result\\%s",fileName),false);
+                runThread();
             }
         };
         Thread t4 = new Thread() {
             @Override
             public void run() {
-                String text = readFileByLines("warAndPiece");
-                System.out.println(text);
-                StringBuffer sb = new StringBuffer(text);
-                String reversText = sb.reverse().toString();
-                LocalDate currentDate = LocalDate.now();
-                String fileName = String.format("%s_%s", Thread.currentThread().getName(),currentDate);
-                write(reversText, String.format("result\\%s",fileName),false);
+                runThread();
             }
         };
         Thread t5 = new Thread() {
             @Override
             public void run() {
-                String text = readFileByLines("warAndPiece");
-                System.out.println(text);
-                StringBuffer sb = new StringBuffer(text);
-                String reversText = sb.reverse().toString();
-                LocalDate currentDate = LocalDate.now();
-                String fileName = String.format("%s_%s", Thread.currentThread().getName(),currentDate);
-                write(reversText, String.format("result\\%s",fileName),false);
+                runThread();
             }
         };
         Thread t6 = new Thread() {
             @Override
             public void run() {
-                String text = readFileByLines("warAndPiece");
-                System.out.println(text);
-                StringBuffer sb = new StringBuffer(text);
-                String reversText = sb.reverse().toString();
-                LocalDate currentDate = LocalDate.now();
-                String fileName = String.format("%s_%s", Thread.currentThread().getName(),currentDate);
-                write(reversText, String.format("result\\%s",fileName),false);
+                runThread();
             }
         };
         Thread t7 = new Thread() {
             @Override
             public void run() {
-                String text = readFileByLines("warAndPiece");
-                System.out.println(text);
-                StringBuffer sb = new StringBuffer(text);
-                String reversText = sb.reverse().toString();
-                LocalDate currentDate = LocalDate.now();
-                String fileName = String.format("%s_%s", Thread.currentThread().getName(),currentDate);
-                write(reversText, String.format("result\\%s",fileName),false);
+                runThread();
             }
         };
-
+        DaemonTread daemon = new DaemonTread();
+        daemon.start();
         t1.setName("ThreadNum1");
         t2.setName("ThreadNum2");
         t3.setName("ThreadNum3");
@@ -106,6 +65,29 @@ public class Task4 {
         t6.start();
         t7.start();
 
+
+        try {
+            t1.join();
+            t2.join();
+            t3.join();
+            t4.join();
+            t5.join();
+            t6.join();
+            t7.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+    }
+    public static void runThread(){
+        String text = readFileByLines("warAndPiece");
+        StringBuffer sb = new StringBuffer(text);
+        String reversText = sb.reverse().toString();
+        LocalDate currentDate = LocalDate.now();
+        String fileName = String.format("%s_%s", Thread.currentThread().getName(),currentDate);
+        write(reversText, String.format("result\\%s",fileName),false);
     }
     public synchronized static String readFileByLines(String path){
         StringBuilder sb = new StringBuilder(214748364);
@@ -130,4 +112,26 @@ public class Task4 {
             e.printStackTrace();
         }
     }
+}
+
+class DaemonTread extends Thread{
+    public DaemonTread() {
+        this.setDaemon(true);
+    }
+    @Override
+    public void run(){
+        File folder = new File("result");
+        int threadsCounter = 7;
+        while (true){
+            if (folder.length() == 0){
+                System.out.println(threadsCounter + " потоков в работе");
+            }
+            else {
+                File[] array = folder.listFiles();
+                System.out.println( (threadsCounter - array.length)+ " потоков в работе");
+            }
+
+        }
+    }
+
 }

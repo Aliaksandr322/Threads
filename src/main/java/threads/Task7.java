@@ -10,6 +10,7 @@ public class Task7 {
 
     public static void main(String[] args) {
 
+
         Thread clientThread = new Thread(()->{
             synchronized (lock){
                 System.out.println("Оформление заказа");

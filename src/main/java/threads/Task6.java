@@ -11,6 +11,7 @@ public class Task6 {
     private static boolean isOdd = false;
 
 
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите количество чисел :");
